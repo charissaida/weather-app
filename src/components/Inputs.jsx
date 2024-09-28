@@ -49,13 +49,13 @@ const Inputs = ({ setRegion, setUnits, onInputChange, suggestions, setSuggestion
   return (
     <div className="flex flex-row justify-center my-6">
       <div className="flex flex-row w-3/4 items-center justify-center space-x-4">
-        <input value={location} onChange={handleInputChange} type="text" placeholder="search by city..." className="text-gray-500 text-xl font-light p-2 w-full shadow-xl capitalize focus:outline-none placeholder:lowercase" />
+        <input value={location} onChange={handleInputChange} type="text" placeholder="search by city..." className="text-gray-500 text-xl font-light p-2 w-full shadow-xl rounded-lg capitalize focus:outline-none placeholder:lowercase" />
         <BiSearch size={50} className="cursor-pointer transition ease-out hover:scale-125" onClick={handleSearchClick} />
         <BiCurrentLocation size={50} className="cursor-pointer transition ease-out hover:scale-125" onClick={handleLocationClick} />
       </div>
 
       {suggestions.length > 0 && (
-        <ul className="absolute w-7/12 mt-12 bg-white text-gray-500 shadow-lg rounded-lg z-10">
+        <ul className="absolute w-2/5 mt-12 bg-white text-gray-500 shadow-lg rounded-lg z-10 left-80">
           {suggestions.map((suggestion, index) => (
             <li key={index} className="p-2 cursor-pointer hover:bg-gray-200 rounded-lg" onClick={() => handleSuggestionClick(suggestion)}>
               {suggestion}
