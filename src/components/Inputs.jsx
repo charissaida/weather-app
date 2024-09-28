@@ -47,15 +47,21 @@ const Inputs = ({ setRegion, setUnits, onInputChange, suggestions, setSuggestion
   };
 
   return (
-    <div className="flex flex-row justify-center my-6">
-      <div className="flex flex-row w-3/4 items-center justify-center space-x-4">
-        <input value={location} onChange={handleInputChange} type="text" placeholder="search by city..." className="text-gray-500 text-xl font-light p-2 w-full shadow-xl rounded-lg capitalize focus:outline-none placeholder:lowercase" />
+    <div className="flex flex-col md:flex-row justify-center my-6 relative">
+      <div className="flex flex-row w-full md:w-3/4 items-center justify-center space-x-4">
+        <input
+          value={location}
+          onChange={handleInputChange}
+          type="text"
+          placeholder="search by city..."
+          className="text-gray-500 text-lg font-light p-2 w-full md:w-4/5 shadow-xl rounded-lg capitalize focus:outline-none placeholder:lowercase"
+        />
         <BiSearch size={50} className="cursor-pointer transition ease-out hover:scale-125" onClick={handleSearchClick} />
         <BiCurrentLocation size={50} className="cursor-pointer transition ease-out hover:scale-125" onClick={handleLocationClick} />
       </div>
 
       {suggestions.length > 0 && (
-        <ul className="absolute w-2/5 mt-12 bg-white text-gray-500 shadow-lg rounded-lg z-10 left-80">
+        <ul className="absolute w-full md:w-3/5 mt-28 md:mt-10 bg-white text-gray-500 shadow-lg rounded-lg z-10 left-0 md:left-9 max-h-32 md:max-h-60 overflow-y-auto">
           {suggestions.map((suggestion, index) => (
             <li key={index} className="p-2 cursor-pointer hover:bg-gray-200 rounded-lg" onClick={() => handleSuggestionClick(suggestion)}>
               {suggestion}
@@ -64,12 +70,12 @@ const Inputs = ({ setRegion, setUnits, onInputChange, suggestions, setSuggestion
         </ul>
       )}
 
-      <div className="flex flex-row w-1/4 items-center justify-center">
-        <button className="text-2xl font-medium transition ease-out hover:scale-125" onClick={() => setUnits("metric")}>
+      <div className="flex flex-row w-full md:w-1/4 items-center justify-center mt-4 md:mt-0">
+        <button className="text-xl md:text-2xl font-medium transition ease-out hover:scale-125" onClick={() => setUnits("metric")}>
           °C
         </button>
-        <p className="text-2xl font-medium mx-1">|</p>
-        <button className="text-2xl font-medium transition ease-out hover:scale-125" onClick={() => setUnits("imperial")}>
+        <p className="text-xl md:text-2xl font-medium mx-1">|</p>
+        <button className="text-xl md:text-2xl font-medium transition ease-out hover:scale-125" onClick={() => setUnits("imperial")}>
           °F
         </button>
       </div>

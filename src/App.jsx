@@ -63,7 +63,6 @@ const App = () => {
       setSuggestions([]);
     }
   };
-  console.log(suggestions);
 
   const formatBackground = () => {
     if (!weatherData) return "from-cyan-600 to-blue-700";
@@ -73,7 +72,7 @@ const App = () => {
   };
 
   return (
-    <div className={`mx-auto max-w-screen-lg mt-4 py-5 px-20 bg-gradient-to-br shadow-xl shadow-gray-400 ${formatBackground()}`}>
+    <div className={`mx-auto py-5 px-5 sm:px-10 md:px-20 bg-gradient-to-br shadow-xl shadow-gray-400 ${formatBackground()}`}>
       <ButtonTop setRegion={setRegion} />
       <Inputs setRegion={setRegion} setUnits={setUnits} onInputChange={handleInputChange} suggestions={suggestions} setSuggestions={setSuggestions} />
 

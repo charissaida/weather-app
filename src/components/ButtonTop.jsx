@@ -27,11 +27,12 @@ const ButtonTop = ({ setRegion }) => {
   return (
     <div className="flex items-center justify-around my-6">
       {cities.map((city, index) => (
-        <div key={city.id} className="flex items-center">
+        <div key={city.id} className={`flex items-center ${index >= 3 ? "hidden md:flex" : ""}`}>
           <button className="text-lg font-medium hover:bg-gray-700/20 px-3 py-2 rounded-md transition ease-in" onClick={() => setRegion(city.name)}>
             {city.name}
           </button>
-          {index < cities.length - 1 && <span className="mx-2">|</span>}
+          {index < 2 && <span className="mx-2 md:hidden">|</span>}
+          {index < cities.length - 1 && <span className="ms-16 hidden md:inline">|</span>}
         </div>
       ))}
     </div>
