@@ -4,7 +4,7 @@ import Inputs from "./components/Inputs";
 import TimeandLocation from "./components/TimeandLocation";
 import TempandDetail from "./components/TempandDetail";
 import Forecast from "./components/Forecast";
-import getCityWeatherData from "./services/weatherService";
+import getCityWeatherData, { fetchRegionCodes, getCitySuggestions } from "./services/weatherService";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,8 +12,10 @@ import "react-toastify/dist/ReactToastify.css";
 const App = () => {
   const [weatherData, setWeatherData] = useState(null);
   const [dailyForecast, setDailyForecast] = useState(null);
-  const [region, setRegion] = useState("Sitirejo");
+  const [region, setRegion] = useState("Kab. Malang");
   const [units, setUnits] = useState("metric");
+  const [suggestions, setSuggestions] = useState([]);
+  const [regionCodes, setRegionCodes] = useState({ provinces: [], cities: [] });
 
   const convertToImperial = (data) => {
     return data.map((entry) => {
@@ -41,12 +43,27 @@ const App = () => {
       setWeatherData(data.currentWeather);
       setDailyForecast(data.dailyForecast);
     }
-    toast.success(`Mengambil data cuaca untuk ${data.currentWeather[0].desa}`);
+    toast.success(`Mengambil data cuaca untuk ${regionName}`);
   };
 
   useEffect(() => {
     fetchData();
   }, [region, units]);
+
+  useEffect(() => {
+    const regionCodes = fetchRegionCodes();
+    setRegionCodes(regionCodes);
+  }, []);
+
+  const handleInputChange = (input) => {
+    if (input.length > 2) {
+      const citySuggestions = getCitySuggestions(input, regionCodes);
+      setSuggestions(citySuggestions);
+    } else {
+      setSuggestions([]);
+    }
+  };
+  console.log(suggestions);
 
   const formatBackground = () => {
     if (!weatherData) return "from-cyan-600 to-blue-700";
@@ -56,9 +73,9 @@ const App = () => {
   };
 
   return (
-    <div className={`mx-auto max-w-screen-lg mt-4 py-5 px-32 bg-gradient-to-br shadow-xl shadow-gray-400 ${formatBackground()}`}>
+    <div className={`mx-auto max-w-screen-lg mt-4 py-5 px-20 bg-gradient-to-br shadow-xl shadow-gray-400 ${formatBackground()}`}>
       <ButtonTop setRegion={setRegion} />
-      <Inputs setRegion={setRegion} setUnits={setUnits} />
+      <Inputs setRegion={setRegion} setUnits={setUnits} onInputChange={handleInputChange} suggestions={suggestions} setSuggestions={setSuggestions} />
 
       {weatherData && (
         <>

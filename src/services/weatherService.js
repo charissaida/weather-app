@@ -3,15 +3,14 @@ import data from "../data/kodeWilayah.json";
 
 const BASE_URL = "https://api.bmkg.go.id/publik/prakiraan-cuaca";
 
-// Fungsi untuk memproses data wilayah dari JSON yang diimpor
+// Filter data untuk provinsi dan kota
 const fetchRegionCodes = () => {
   const jsonData = data.Root.data;
-  let regionCodes = {};
+  let regionCodes = { provinces: [], cities: [] };
 
-  jsonData.forEach((row) => {
-    const { kode, wilayah } = row;
-    regionCodes[wilayah.toLowerCase()] = kode;
-  });
+  regionCodes.provinces = jsonData.filter((item) => item.kode.length <= 2);
+  regionCodes.cities = jsonData.filter((item) => item.kode.length > 2 && item.kode.length <= 5);
+
   return regionCodes;
 };
 
@@ -21,9 +20,9 @@ const getDesaIdFromRegion = (region, regionCodes) => {
     .split(", ")
     .map((str) => str.trim())
     .shift()
-    .toLowerCase();
+    .toUpperCase();
 
-  const desaCode = regionCodes[wilayah];
+  const desaCode = regionCodes.cities.find((city) => city.wilayah === wilayah)?.kode;
 
   if (desaCode) {
     return desaCode;
@@ -35,7 +34,7 @@ const getDesaIdFromRegion = (region, regionCodes) => {
 
 // Fungsi untuk mendapatkan data cuaca berdasarkan desaId
 const getWeatherData = async (desaId) => {
-  const url = `${BASE_URL}?adm4=${desaId}`;
+  const url = `${BASE_URL}?adm2=${desaId}`;
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -88,8 +87,6 @@ const formatCurrent = async (data) => {
       coordinate: `${lokasi.lon}, ${lokasi.lat}`,
       latitude: lokasi.lat,
       longitude: lokasi.lon,
-      desa: lokasi.desa,
-      kecamatan: lokasi.kecamatan,
       kotkab: lokasi.kota,
       provinsi: lokasi.provinsi,
       humidity: currentWeather.hu,
@@ -146,4 +143,17 @@ const getCityWeatherData = async (region) => {
   }
 };
 
+// Fungsi untuk mendapatkan suggest nama kota beserta provinsi
+const getCitySuggestions = (input, regionCodes) => {
+  const suggestions = regionCodes.cities
+    .filter((city) => city.wilayah.toLowerCase().includes(input.toLowerCase()))
+    .map((city) => {
+      const province = regionCodes.provinces.find((prov) => prov.kode === city.kode.slice(0, 2));
+      return `${city.wilayah}, ${province ? province.wilayah : "Unknown Province"}`;
+    });
+
+  return suggestions;
+};
+
 export default getCityWeatherData;
+export { fetchRegionCodes, getCitySuggestions };
