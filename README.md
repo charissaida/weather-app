@@ -1,8 +1,9 @@
-# React + Vite
+# Weather App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Weather App, aplikasi perkiraan cuaca yang menampilkan informasi cuaca terkini di berbagai kota di Indonesia menggunakan data dari BMKG. Pengguna dapat mencari kondisi cuaca berdasarkan nama kota dan melihat informasi lengkap seperti suhu, kelembapan, kecepatan angin, serta waktu matahari terbit dan terbenam. Aplikasi ini juga menawarkan pilihan untuk melihat suhu dalam satuan Celcius (°C) atau Fahrenheit (°F), serta menyediakan prakiraan cuaca harian dan per jam.
 
-Currently, two official plugins are available:
+Sumber: [Data Terbuka BMKG](https://data.bmkg.go.id/).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Demo
+
+[https://charissaida.github.io/weather-app](https://charissaida.github.io/weather-app)
